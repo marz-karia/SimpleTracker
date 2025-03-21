@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Task Tracker - Task Details</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-check-circle"></i>
+            <h1>Simple Task Tracker</h1>
+        </div>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="tasks.html"><i class="fas fa-tasks"></i> Task List</a></li>
+                <li><a href="completed-tasks.html"><i class="fas fa-clipboard-check"></i> Completed Tasks</a></li>
+                <li><a href="#" id="help-button"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="help-tooltip" id="help-tooltip">
+        <div class="help-header">
+            <h3>Help & Shortcuts</h3>
+            <button id="close-help"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="help-content">
+            <p><strong>Keyboard Shortcuts:</strong></p>
+            <ul>
+                <li><kbd>E</kbd> - Edit this task</li>
+                <li><kbd>C</kbd> - Mark as complete</li>
+                <li><kbd>D</kbd> - Delete this task</li>
+                <li><kbd>B</kbd> - Go back to task list</li>
+            </ul>
+            <p><strong>Task Details Help:</strong></p>
+            <p>This page shows all information about a specific task. You can edit any details or mark it as complete from here.</p>
+        </div>
+    </div>
+
+    <main>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; <a href="tasks.html">Task List</a> &gt; <span id="breadcrumb-task-title">Task Details</span>
+        </div>
+
+        <section class="page-header task-details-header">
+            <div>
+                <button class="btn secondary back-btn" id="back-to-list">
+                    <i class="fas fa-arrow-left"></i> Back to List
+                </button>
+                <h2 id="task-title-header">Task Details</h2>
+            </div>
+            <div class="task-status" id="task-status">Active</div>
+        </section>
+
+        <section class="task-details-container">
+            <div class="details-card">
+                <div class="details-header">
+                    <h3>Task Information</h3>
+                    <div class="details-actions">
+                        <button class="btn secondary" id="edit-task-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn primary" id="complete-task-btn">
+                            <i class="fas fa-check"></i> Mark Complete
+                        </button>
+                        <button class="btn danger" id="delete-task-btn">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="details-content">
+                    <div class="detail-row">
+                        <span class="detail-label">Title:</span>
+                        <span class="detail-value" id="detail-title"></span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Due Date:</span>
+                        <div class="detail-value due-date-container">
+                            <span id="detail-due-date"></span>
+                            <span class="due-badge" id="due-badge"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Priority:</span>
+                        <div class="detail-value priority-container">
+                            <span class="priority-indicator" id="priority-indicator"></span>
+                            <span id="detail-priority"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Created:</span>
+                        <span class="detail-value" id="detail-created"></span>
+                    </div>
+                    
+                    <div class="detail-row notes-row">
+                        <span class="detail-label">Notes:</span>
+                        <div class="detail-value" id="detail-notes"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="details-sidebar">
+                <div class="sidebar-card" id="time-remaining-card">
+                    <h3>Time Remaining</h3>
+                    <div class="countdown-container" id="countdown-container">
+                        <div class="countdown-value" id="countdown-value"></div>
+                        <div class="countdown-label" id="countdown-label"></div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="btn secondary full-width" id="postpone-task-btn">
+                            <i class="fas fa-clock"></i> Postpone Task
+                        </button>
+                        <button class="btn secondary full-width" id="duplicate-task-btn">
+                            <i class="fas fa-copy"></i> Duplicate Task
+                        </button>
+                        <a href="tasks.html" class="btn secondary full-width">
+                            <i class="fas fa-list"></i> View All Tasks
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Edit Task Modal -->
+    <div class="modal" id="edit-task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Task</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-task-form">
+                    <input type="hidden" id="edit-task-id">
+                    <div class="form-group">
+                        <label for="edit-task-title">Task Title *</label>
+                        <input type="text" id="edit-task-title" placeholder="Enter task title" required>
+                        <div class="error-message" id="edit-title-error"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-task-due-date">Due Date</label>
+                            <input type="date" id="edit-task-due-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-task-priority">Priority</label>
+                            <select id="edit-task-priority">
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-task-notes">Notes</label>
+                        <textarea id="edit-task-notes" placeholder="Add any additional details..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary cancel-modal">Cancel</button>
+                        <button type="submit" class="btn primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Postpone Task Modal -->
+    <div class="modal" id="postpone-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Postpone Task</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="postpone-form">
+                    <div class="form-group">
+                        <label for="postpone-option">Postpone until:</label>
+                        <select id="postpone-option">
+                            <option value="tomorrow">Tomorrow</option>
+                            <option value="next-week">Next Week</option>
+                            <option value="custom">Custom Date</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="custom-date-group" style="display: none;">
+                        <label for="postpone-custom-date">Select Date:</label>
+                        <input type="date" id="postpone-custom-date">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary cancel-modal">Cancel</button>
+                        <button type="submit" class="btn primary">Postpone Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Delete Task?</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete "<span id="delete-task-title"></span>"?</p>
+                <p class="warning-text">This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn secondary cancel-modal">Cancel</button>
+                    <button type="button" class="btn danger" id="confirm-delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message Toast -->
+    <div class="toast" id="success-toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Task updated successfully!</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Simple Task Tracker | <a href="#" id="footer-help">Help</a> | <a href="#" id="privacy-policy">Privacy Policy</a></p>
+    </footer>
+
+    <!-- The bundled script will be injected here by webpack -->
+</body>
+</html>

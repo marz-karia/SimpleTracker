@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Task Tracker - Home</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-check-circle"></i>
+            <h1>Simple Task Tracker</h1>
+        </div>
+        <nav>
+            <ul id="main-nav">
+                <li class="active"><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="tasks.html"><i class="fas fa-tasks"></i> Task List</a></li>
+                <li><a href="completed-tasks.html"><i class="fas fa-clipboard-check"></i> Completed Tasks</a></li>
+                <li><a href="#" id="help-button"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="help-tooltip" id="help-tooltip">
+        <div class="help-header">
+            <h3>Help & Shortcuts</h3>
+            <button id="close-help"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="help-content">
+            <p><strong>Keyboard Shortcuts:</strong></p>
+            <ul>
+                <li><kbd>N</kbd> - Create new task</li>
+                <li><kbd>C</kbd> - Mark task as complete</li>
+                <li><kbd>E</kbd> - Edit selected task</li>
+                <li><kbd>D</kbd> - Delete selected task</li>
+            </ul>
+            <p><strong>Need more help?</strong> Click on any element for context-specific guidance.</p>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Welcome to Simple Task Tracker</h2>
+                <p>Organize your life, one task at a time</p>
+                <div class="cta-buttons">
+                    <a href="tasks.html" class="btn primary"><i class="fas fa-list"></i> View Tasks</a>
+                    <a href="#" class="btn secondary" id="quick-add-btn"><i class="fas fa-plus"></i> Add New Task</a>
+                </div>
+            </div>
+            
+        </section>
+
+        <section class="task-stats">
+            <h2>Your Task Overview</h2>
+            <div class="stats-container" id="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-calendar-day"></i>
+                    <h3>Due Today</h3>
+                    <p class="stat" id="due-today">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-week"></i>
+                    <h3>Due This Week</h3>
+                    <p class="stat" id="due-week">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <h3>High Priority</h3>
+                    <p class="stat" id="high-priority">0</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check"></i>
+                    <h3>Completed</h3>
+                    <p class="stat" id="completed-total">0</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <i class="fas fa-list-check"></i>
+                    <h3>Task Management</h3>
+                    <p>Create, organize, and prioritize your tasks with ease. Set deadlines, priorities, and detailed notes to keep everything on track.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bell"></i>
+                    <h3>Visual Indicators</h3>
+                    <p>Easily identify task status with color-coded priorities and due dates. Yellow for approaching deadlines, red for overdue tasks.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-history"></i>
+                    <h3>Task History</h3>
+                    <p>Keep track of your productivity with a comprehensive history of completed tasks. Restore completed tasks if needed.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>User-Friendly Design</h3>
+                    <p>Intuitive interface designed with Human-Computer Interaction principles for the best possible user experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="getting-started">
+            <h2>Getting Started</h2>
+            <p>Using Simple Task Tracker is easy! Just follow these steps:</p>
+            <ol>
+                <li>Click on "Add New Task" to create your first task</li>
+                <li>Fill in task details including title, due date, and priority</li>
+                <li>View all your tasks on the Task List page</li>
+                <li>Click on any task to see or edit detailed information</li>
+                <li>Mark tasks as complete when you're done</li>
+            </ol>
+            <a href="tasks.html" class="btn primary">Get Started Now</a>
+        </section>
+    </main>
+
+    <!-- Quick Add Task Modal -->
+    <div class="modal" id="quick-add-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Task</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="quick-add-form">
+                    <div class="form-group">
+                        <label for="task-title">Task Title *</label>
+                        <input type="text" id="task-title" placeholder="Enter task title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-due-date">Due Date</label>
+                        <input type="date" id="task-due-date">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="task-notes">Notes</label>
+                        <textarea id="task-notes" placeholder="Add any additional details..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn secondary cancel-modal">Cancel</button>
+                        <button type="submit" class="btn primary">Add Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message Toast -->
+    <div class="toast" id="success-toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Task added successfully!</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Simple Task Tracker | <a href="#" id="footer-help">Help</a> | <a href="#" id="privacy-policy">Privacy Policy</a></p>
+    </footer>
+
+    <!-- The bundled script will be injected here by webpack -->
+</body>
+</html>

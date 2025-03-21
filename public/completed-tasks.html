@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Task Tracker - Completed Tasks</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-check-circle"></i>
+            <h1>Simple Task Tracker</h1>
+        </div>
+        <nav>
+            <ul id="main-nav">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="tasks.html"><i class="fas fa-tasks"></i> Task List</a></li>
+                <li class="active"><a href="completed-tasks.html"><i class="fas fa-clipboard-check"></i> Completed Tasks</a></li>
+                <li><a href="#" id="help-button"><i class="fas fa-question-circle"></i> Help</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="help-tooltip" id="help-tooltip">
+        <div class="help-header">
+            <h3>Help & Shortcuts</h3>
+            <button id="close-help"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="help-content">
+            <p><strong>Keyboard Shortcuts:</strong></p>
+            <ul>
+                <li><kbd>R</kbd> - Restore selected task</li>
+                <li><kbd>D</kbd> - Delete selected task</li>
+            </ul>
+            <p><strong>Completed Tasks Help:</strong></p>
+            <ul>
+                <li>View all your completed tasks here</li>
+                <li>Restore tasks to active if needed</li>
+                <li>Sort and filter tasks by completion date</li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> &gt; Completed Tasks
+        </div>
+
+        <section class="page-header">
+            <h2>Completed Tasks</h2>
+            <div class="completion-stats">
+                <div class="stat-pill">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Today: <span id="completed-today">0</span></span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fas fa-calendar-week"></i>
+                    <span>This Week: <span id="completed-week">0</span></span>
+                </div>
+                <div class="stat-pill">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>This Month: <span id="completed-month">0</span></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="task-filters">
+            <div class="search-container">
+                <input type="text" id="search-tasks" placeholder="Search completed tasks...">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="filter-container">
+                <label for="filter-completed">Completed:</label>
+                <select id="filter-completed">
+                    <option value="all">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="this-week">This Week</option>
+                    <option value="this-month">This Month</option>
+                </select>
+
+                <label for="filter-priority">Priority:</label>
+                <select id="filter-priority">
+                    <option value="all">All</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+
+                <button class="btn secondary" id="clear-filters">
+                    <i class="fas fa-times"></i> Clear Filters
+                </button>
+            </div>
+        </section>
+
+        <section class="task-list-container completed-tasks-container">
+            <div class="task-header">
+                <div class="task-title-header sortable" data-sort="title">
+                    Title <i class="fas fa-sort"></i>
+                </div>
+                <div class="task-completed-date-header sortable" data-sort="completed-date">
+                    Completed <i class="fas fa-sort"></i>
+                </div>
+                <div class="task-priority-header sortable" data-sort="priority">
+                    Priority <i class="fas fa-sort"></i>
+                </div>
+                <div class="task-actions-header">
+                    Actions
+                </div>
+            </div>
+
+            <div class="tasks" id="completed-tasks-container">
+                <!-- Completed task items will be dynamically populated here by JavaScript -->
+                <div class="loading-indicator">
+                    <i class="fas fa-spinner fa-spin"></i> Loading completed tasks...
+                </div>
+            </div>
+
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-state-content">
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>No Completed Tasks</h3>
+                    <p>You haven't completed any tasks yet.</p>
+                    <a href="tasks.html" class="btn primary">
+                        <i class="fas fa-tasks"></i> Go to Task List
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Task Details Modal -->
+    <div class="modal" id="task-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="details-title">Completed Task Details</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="task-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Title:</span>
+                        <span class="detail-value" id="details-task-title"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Completed:</span>
+                        <span class="detail-value" id="details-completed-date"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Due Date:</span>
+                        <span class="detail-value" id="details-due-date"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Priority:</span>
+                        <span class="detail-value" id="details-priority"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Created:</span>
+                        <span class="detail-value" id="details-created"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Notes:</span>
+                        <div class="detail-value" id="details-notes"></div>
+                    </div>
+                </div>
+                <div class="detail-actions">
+                    <button type="button" class="btn secondary" id="restore-from-details">
+                        <i class="fas fa-undo"></i> Restore Task
+                    </button>
+                    <button type="button" class="btn danger" id="delete-from-details">
+                        <i class="fas fa-trash"></i> Delete Task
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="delete-confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Delete Completed Task?</h2>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete "<span id="delete-task-title"></span>"?</p>
+                <p class="warning-text">This action cannot be undone.</p>
+                <div class="form-actions">
+                    <button type="button" class="btn secondary cancel-modal">Cancel</button>
+                    <button type="button" class="btn danger" id="confirm-delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message Toast -->
+    <div class="toast" id="success-toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Task restored successfully!</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Simple Task Tracker | <a href="#" id="footer-help">Help</a> | <a href="#" id="privacy-policy">Privacy Policy</a></p>
+    </footer>
+
+    <!-- The bundled script will be injected here by webpack -->
+</body>
+</html>
